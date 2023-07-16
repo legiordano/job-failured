@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 import traceback
 import openai
+import logging
 
 # Spark Session configuration
 spark = SparkSession.builder \
@@ -25,19 +26,18 @@ def get_error_solution(error_log):
 def potentially_failing_job():
     try:
         #  code here
-        # ...
 
         raise Exception("The job has failed")
 
     except Exception as e:
         error_traceback = traceback.format_exc()
 
-        print("Error in the job:")
-        print(error_traceback)
+        logging.info("Error in the job:")
+        logging.error(error_traceback)
 
         solution = get_error_solution(error_traceback)
-        print("Possible solution to the error:")
-        print(solution)
+        logging.warning("Possible solution to the error:")
+        logging.info(solution)
 
 potentially_failing_job()
 
